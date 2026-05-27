@@ -166,6 +166,46 @@
   }
   .sub-tab.active { background: #0f7a5a; color: #fff; }
 
+  /* Preset picker */
+  .preset-picker { position: relative; margin-top: 4px; }
+  .preset-picker > button {
+    width: 100%;
+    background: #faf6ec; border: 1.5px solid #d8cfb5;
+    color: #6b6353; font-family: inherit;
+    padding: 10px 14px; border-radius: 8px;
+    text-align: right; cursor: pointer;
+    font-size: 16px; font-weight: 700;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .preset-picker .arrow { color: #b8860b; font-size: 14px; }
+  .preset-menu {
+    display: none;
+    position: absolute;
+    top: 100%; right: 0; left: 0;
+    margin-top: 4px;
+    background: #fff;
+    border: 1.5px solid #d8cfb5; border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.15);
+    max-height: 320px; overflow-y: auto;
+    z-index: 50;
+  }
+  .preset-picker.open .preset-menu { display: block; }
+  .preset-item {
+    padding: 12px 14px; cursor: pointer;
+    border-bottom: 1px solid #f0e6d0;
+    font-size: 15px; line-height: 1.6;
+    color: #2b2418;
+  }
+  .preset-item:last-child { border-bottom: none; }
+  .preset-item:hover { background: #faf6ec; }
+  .preset-item:active { background: #f0e6c8; }
+  .preset-item.cancel {
+    text-align: center; color: #b34747;
+    font-weight: 700;
+    background: #faf6ec;
+    border-bottom: 2px solid #d8cfb5;
+  }
+
   .toast {
     position: fixed; bottom: 20px; left: 50%;
     transform: translateX(-50%);
@@ -223,6 +263,43 @@ const COMPLETION_PRESETS = [
 ];
 
 function parseNumber(v) { return parseInt(String(v || '').replace(/[,\s]/g, ''), 10) || 0; }
+
+function renderPresetPicker(targetId) {
+  const items = COMPLETION_PRESETS.map((p, i) =>
+    `<div class="preset-item" onclick="pickPreset('${targetId}', ${i})">${escapeHtml(p)}</div>`
+  ).join('');
+  return `<div class="preset-picker" id="picker-${targetId}">
+    <button type="button" onclick="togglePicker('${targetId}')">
+      <span>— اختر تهنئة جاهزة —</span><span class="arrow">▾</span>
+    </button>
+    <div class="preset-menu">
+      <div class="preset-item cancel" onclick="closePicker('${targetId}')">إلغاء</div>
+      ${items}
+    </div>
+  </div>`;
+}
+function togglePicker(targetId) {
+  const wrap = document.getElementById('picker-' + targetId);
+  if (!wrap) return;
+  // Close any others
+  document.querySelectorAll('.preset-picker.open').forEach(el => { if (el !== wrap) el.classList.remove('open'); });
+  wrap.classList.toggle('open');
+}
+function closePicker(targetId) {
+  const wrap = document.getElementById('picker-' + targetId);
+  if (wrap) wrap.classList.remove('open');
+}
+function pickPreset(targetId, idx) {
+  const ta = document.getElementById(targetId);
+  if (ta) ta.value = COMPLETION_PRESETS[idx];
+  closePicker(targetId);
+}
+document.addEventListener('click', e => {
+  // Close any open picker if clicking outside it
+  if (!e.target.closest('.preset-picker')) {
+    document.querySelectorAll('.preset-picker.open').forEach(el => el.classList.remove('open'));
+  }
+});
 function formatNumberInput(el) {
   const caret = el.selectionStart;
   const before = el.value;
@@ -368,10 +445,7 @@ function renderCreateForm() {
         منع المساهم من تجاوز هدفه الفردي
       </label>
       <label>رسالة التهنئة عند إتمام الهدف الفردي (اختياري)</label>
-      <select onchange="if(this.value){document.getElementById('new-completion').value=this.value;this.selectedIndex=0;}">
-        <option value="">— اختر تهنئة جاهزة أو اكتبها بنفسك —</option>
-        ${COMPLETION_PRESETS.map(p => `<option value="${escapeAttr(p)}">${escapeHtml(p)}</option>`).join('')}
-      </select>
+      ${renderPresetPicker('new-completion')}
       <textarea id="new-completion" placeholder="مثال: تقبّل الله منك — أتممت الذكر بفضل من الله"></textarea>
       <div style="font-size: 18px;color:#8a6a1a;margin-top:6px">يجب تحديد هدف واحد على الأقل (جماعي أو فردي).</div>
       <label>موعد الإتمام — التاريخ والوقت (اختياري)</label>
@@ -424,10 +498,7 @@ function renderZikr(z) {
         منع المساهم من تجاوز هدفه الفردي
       </label>
       <label>رسالة التهنئة عند إتمام الهدف الفردي (اختياري)</label>
-      <select onchange="if(this.value){document.getElementById('completion-${z.id}').value=this.value;this.selectedIndex=0;}">
-        <option value="">— اختر تهنئة جاهزة أو اكتبها بنفسك —</option>
-        ${COMPLETION_PRESETS.map(p => `<option value="${escapeAttr(p)}">${escapeHtml(p)}</option>`).join('')}
-      </select>
+      ${renderPresetPicker('completion-' + z.id)}
       <textarea id="completion-${z.id}">${escapeHtml(z.completionMessage || '')}</textarea>
       <label>الموعد (التاريخ والوقت)</label>
       <input id="deadline-${z.id}" type="datetime-local" value="${z.deadline ? toLocalInput(z.deadline) : ''}" />
