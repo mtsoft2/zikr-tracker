@@ -30,19 +30,6 @@
     background: rgba(255,255,255,.15);
     padding: 6px 12px; border-radius: 8px;
   }
-  .font-controls { display: flex; gap: 4px; }
-  .font-controls button {
-    width: 34px; height: 34px;
-    border: none;
-    background: rgba(255,255,255,.18);
-    color: #fff; font-weight: 700;
-    border-radius: 50%; cursor: pointer;
-    font-family: inherit;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .font-controls button:active { background: rgba(255,255,255,.32); }
-  .font-controls .a-plus { font-size: 16px; }
-  .font-controls .a-minus { font-size: 13px; }
 
   .toptabs {
     display: flex;
@@ -194,10 +181,7 @@
 <header>
   <a href="/">← الرئيسية</a>
   <h1>لوحة الإدارة</h1>
-  <div class="font-controls">
-    <button class="a-plus" onclick="bumpFont(1)" title="تكبير الخط">أ+</button>
-    <button class="a-minus" onclick="bumpFont(-1)" title="تصغير الخط">أ−</button>
-  </div>
+  <span style="width:80px"></span>
 </header>
 
 <div class="toptabs">
@@ -212,22 +196,6 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const FONT_SCALE_KEY = 'zikr_font_scale';
-const FONT_STEPS = [0.85, 1.0, 1.15, 1.3, 1.5];
-function applyFontScale() {
-  const v = parseFloat(localStorage.getItem(FONT_SCALE_KEY) || '1.0');
-  document.body.style.zoom = v;
-}
-function bumpFont(dir) {
-  const cur = parseFloat(localStorage.getItem(FONT_SCALE_KEY) || '1.0');
-  let i = FONT_STEPS.indexOf(cur);
-  if (i === -1) i = FONT_STEPS.indexOf(1.0);
-  i = Math.max(0, Math.min(FONT_STEPS.length - 1, i + dir));
-  localStorage.setItem(FONT_SCALE_KEY, String(FONT_STEPS[i]));
-  applyFontScale();
-}
-applyFontScale();
-
 let zikrs = [];
 let currentTab = 'active';
 let selectedId = null;
