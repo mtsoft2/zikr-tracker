@@ -19,7 +19,7 @@
     background: linear-gradient(160deg, #f4ebd5 0%, #e9dcb8 100%);
     color: #2b2418;
     min-height: 100vh;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.6;
   }
   header {
@@ -43,17 +43,17 @@
   header h1 {
     margin: 0;
     font-family: 'Amiri', serif;
-    font-size: 30px;
+    font-size: 32px;
     font-weight: 700;
   }
-  .zikr-title { margin-top: 4px; font-size: 20px; font-weight: 700; opacity: 0.98; }
+  .zikr-title { margin-top: 4px; font-size: 22px; font-weight: 700; opacity: 0.98; }
   .phrase {
     margin: 14px auto 0; max-width: 640px;
     background: rgba(255,255,255,.14);
     border-radius: 14px;
     padding: 20px 16px;
     font-family: 'Amiri', serif;
-    font-size: 40px;
+    font-size: 42px;
     line-height: 1.5;
     color: #fff7e0;
     word-break: break-word;
@@ -65,7 +65,7 @@
     padding: 6px 0 8px;
   }
   .tabs-label {
-    font-size: 17px; color: rgba(255,255,255,.9);
+    font-size: 19px; color: rgba(255,255,255,.9);
     padding: 0 14px 6px; text-align: right;
   }
   .tabs {
@@ -81,7 +81,7 @@
     padding: 8px 14px;
     border-radius: 22px;
     font-family: inherit;
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
     white-space: nowrap;
     display: inline-flex; align-items: center; gap: 6px;
@@ -94,7 +94,7 @@
     max-width: 160px;
   }
   .tab .chip-count {
-    font-size: 13px;
+    font-size: 15px;
     background: rgba(0,0,0,.18);
     padding: 2px 8px; border-radius: 10px;
     white-space: nowrap;
@@ -111,10 +111,10 @@
   }
   .add-panel .me-line {
     display: flex; justify-content: space-between; align-items: center;
-    font-size: 17px; color: #4a4133; margin-bottom: 12px;
+    font-size: 19px; color: #4a4133; margin-bottom: 12px;
   }
-  .me-line .name { font-weight: 700; color: #0f7a5a; font-size: 19px; }
-  .me-line .change { background: #faf6ec; border: 1px solid #d8cfb5; color: #b8860b; font-size: 17px; font-weight: 700; font-family: inherit; cursor: pointer; padding: 8px 14px; border-radius: 10px; }
+  .me-line .name { font-weight: 700; color: #0f7a5a; font-size: 21px; }
+  .me-line .change { background: #faf6ec; border: 1px solid #d8cfb5; color: #b8860b; font-size: 19px; font-weight: 700; font-family: inherit; cursor: pointer; padding: 8px 14px; border-radius: 10px; }
 
   .spinner-row {
     display: flex; gap: 8px; align-items: stretch;
@@ -129,7 +129,7 @@
   }
   .spinner button {
     width: 56px; background: #f0e6c8; border: none;
-    font-size: 32px; font-weight: 700; color: #0f7a5a;
+    font-size: 34px; font-weight: 700; color: #0f7a5a;
     cursor: pointer; font-family: inherit;
   }
   .spinner button:active { background: #e0d3a5; }
@@ -138,16 +138,22 @@
     border: none; outline: none;
     background: transparent;
     text-align: center;
-    font-size: 36px; font-weight: 700;
+    font-size: 38px; font-weight: 700;
     font-family: 'Amiri', serif;
     color: #2b2418;
+    -moz-appearance: textfield;
+  }
+  .spinner input::-webkit-outer-spin-button,
+  .spinner input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
   .add-btn {
     flex: 0 0 auto;
     padding: 0 24px;
     background: #0f7a5a; color: #fff;
     border: none; border-radius: 12px;
-    font-family: inherit; font-size: 20px; font-weight: 700;
+    font-family: inherit; font-size: 22px; font-weight: 700;
     cursor: pointer;
     display: flex; align-items: center; gap: 6px;
     min-height: 60px;
@@ -166,7 +172,7 @@
   .mode-toggle button {
     border: none; background: transparent;
     padding: 9px 16px; border-radius: 8px;
-    font-family: inherit; font-size: 16px; font-weight: 700;
+    font-family: inherit; font-size: 18px; font-weight: 700;
     color: #6b6353; cursor: pointer;
   }
   .mode-toggle button.on.add { background: #0f7a5a; color: #fff; }
@@ -180,7 +186,7 @@
     background: #faf6ec; border: 2px solid #d8cfb5;
     border-radius: 22px;
     padding: 14px 6px;
-    font-family: 'Amiri', serif; font-size: 24px; font-weight: 700;
+    font-family: 'Amiri', serif; font-size: 26px; font-weight: 700;
     color: #0f7a5a; cursor: pointer;
     white-space: nowrap;
     min-height: 56px;
@@ -191,7 +197,7 @@
   .panel-disabled {
     text-align: center; padding: 12px;
     background: #fff7e0; color: #8a6a1a;
-    border-radius: 10px; font-size: 17px; font-weight: 700;
+    border-radius: 10px; font-size: 19px; font-weight: 700;
     margin-top: 12px;
   }
   .panel-disabled.archived { background: #efefef; color: #555; }
@@ -202,7 +208,7 @@
     border-radius: 12px;
     padding: 12px 14px;
     text-align: center;
-    font-size: 17px;
+    font-size: 19px;
     color: #8a6a1a;
     border-right: 4px solid #e0b84a;
   }
@@ -226,7 +232,7 @@
   .stat-card.mine { border-top-color: #d4a017; }
   .stat-card.total { border-top-color: #0f7a5a; }
   .stat-label {
-    font-size: 18px; color: #4a4133;
+    font-size: 20px; color: #4a4133;
     font-weight: 700; margin-bottom: 8px;
   }
   .stat-num {
@@ -242,11 +248,11 @@
   }
   .stat-card.mine .stat-num { color: #b8860b; }
   .stat-sub {
-    font-size: 17px; color: #4a4133; margin-top: 6px; font-weight: 700;
+    font-size: 19px; color: #4a4133; margin-top: 6px; font-weight: 700;
   }
   .stat-card.mine .stat-sub {
     font-family: 'Amiri', serif;
-    font-size: 19px; font-weight: 700;
+    font-size: 21px; font-weight: 700;
     color: #b8860b;
     margin-top: 8px;
     background: linear-gradient(135deg, #fff7e0, #ffeac4);
@@ -256,7 +262,7 @@
     box-shadow: inset 0 0 0 1px #e0b84a55;
   }
   .stat-card.mine .stat-sub .pct {
-    color: #8a6a1a; font-size: 17px;
+    color: #8a6a1a; font-size: 19px;
     margin-right: 4px;
   }
   .mini-bar {
@@ -287,16 +293,16 @@
   .podium-card.gold   { background: linear-gradient(160deg, #fff7e0, #ffe7a8); border-color: #d4a017; }
   .podium-card.silver { background: linear-gradient(160deg, #f4f4f4, #d8dde2); border-color: #9fa6ad; }
   .podium-card.bronze { background: linear-gradient(160deg, #fbe5d6, #e9b58e); border-color: #b27040; }
-  .podium-medal { font-size: 30px; line-height: 1; }
-  .podium-label { font-size: 15px; font-weight: 700; margin-top: 6px; opacity: .85; }
+  .podium-medal { font-size: 32px; line-height: 1; }
+  .podium-label { font-size: 17px; font-weight: 700; margin-top: 6px; opacity: .85; }
   .podium-name {
-    font-family: 'Amiri', serif; font-size: 22px; font-weight: 700;
+    font-family: 'Amiri', serif; font-size: 24px; font-weight: 700;
     margin-top: 6px; word-break: break-word;
   }
   .podium-card.gold .podium-name { color: #b8860b; }
   .podium-card.silver .podium-name { color: #4a5560; }
   .podium-card.bronze .podium-name { color: #8a4a25; }
-  .podium-at { font-size: 14px; opacity: .75; margin-top: 6px; }
+  .podium-at { font-size: 16px; opacity: .75; margin-top: 6px; }
 
   .progress-card {
     margin: 12px 16px 0;
@@ -309,11 +315,11 @@
   }
   .progress-card.user { border-right-color: #d4a017; }
   .progress-card .small {
-    font-size: 16px; color: #4a4133; font-weight: 700;
+    font-size: 18px; color: #4a4133; font-weight: 700;
   }
   .progress-card .progress-done {
     font-family: 'Amiri', serif;
-    font-size: 28px; font-weight: 700;
+    font-size: 30px; font-weight: 700;
     color: #0f7a5a;
     margin-top: 6px;
   }
@@ -331,7 +337,7 @@
     background: linear-gradient(90deg, #0f7a5a, #2e8b57);
     transition: width .5s ease;
   }
-  .progress-pct { margin-top: 8px; font-size: 18px; font-weight: 700; color: #0f7a5a; }
+  .progress-pct { margin-top: 8px; font-size: 20px; font-weight: 700; color: #0f7a5a; }
 
   .intro {
     margin: 14px 16px;
@@ -340,7 +346,7 @@
     border-radius: 14px;
     border-right: 4px solid #d4a017;
     box-shadow: 0 2px 8px rgba(0,0,0,.06);
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.8;
     white-space: pre-wrap;
   }
@@ -353,12 +359,12 @@
   }
   .leaderboard h3 {
     margin: 0 0 12px; font-family: 'Amiri', serif;
-    font-size: 22px; color: #b8860b;
+    font-size: 24px; color: #b8860b;
     display: flex; align-items: center; gap: 8px;
   }
   .lb-row {
     display: flex; align-items: center; gap: 12px;
-    padding: 12px 0; font-size: 17px;
+    padding: 12px 0; font-size: 19px;
     border-top: 1px dashed #f0e6d0;
   }
   .lb-row:first-of-type { border-top: none; }
@@ -368,11 +374,11 @@
     border-radius: 50%; background: #f4ebd5;
     color: #6b6353; font-weight: 700;
     display: flex; align-items: center; justify-content: center;
-    font-size: 22px; flex: 0 0 auto;
+    font-size: 24px; flex: 0 0 auto;
   }
   .lb-row.first .lb-rank {
     background: linear-gradient(135deg, #ffd76b, #d4a017);
-    color: #fff; font-size: 26px;
+    color: #fff; font-size: 28px;
   }
   .lb-row.finisher .lb-rank {
     background: linear-gradient(135deg, #d4f1dd, #2e8b57);
@@ -384,16 +390,16 @@
   .lb-badge {
     display: inline-block;
     background: #d4f1dd; color: #2e8b57;
-    font-size: 14px; font-weight: 700;
+    font-size: 16px; font-weight: 700;
     padding: 3px 10px; border-radius: 12px;
     margin-right: 4px;
   }
-  .lb-name { flex: 1; font-weight: 600; color: #2b2418; word-break: break-word; font-size: 18px; }
+  .lb-name { flex: 1; font-weight: 600; color: #2b2418; word-break: break-word; font-size: 20px; }
   .lb-total {
     font-family: 'Amiri', serif; font-weight: 700;
-    color: #0f7a5a; font-size: 32px;
+    color: #0f7a5a; font-size: 34px;
   }
-  .lb-meta { font-size: 15px; color: #4a4133; margin-top: 4px; }
+  .lb-meta { font-size: 17px; color: #4a4133; margin-top: 4px; }
 
   .empty-state {
     margin: 60px 16px;
@@ -421,11 +427,11 @@
   .modal h2 {
     margin: 0 0 12px;
     font-family: 'Amiri', serif;
-    font-size: 26px; color: #0f7a5a; text-align: center;
+    font-size: 28px; color: #0f7a5a; text-align: center;
   }
-  .modal p { font-size: 16px; color: #4a4133; text-align: center; margin: 0 0 14px; line-height: 1.6; }
+  .modal p { font-size: 18px; color: #4a4133; text-align: center; margin: 0 0 14px; line-height: 1.6; }
   .modal input {
-    width: 100%; padding: 14px; font-size: 20px;
+    width: 100%; padding: 14px; font-size: 22px;
     border: 2px solid #d8cfb5; border-radius: 12px;
     font-family: inherit; background: #faf6ec;
     text-align: right;
@@ -434,7 +440,7 @@
   .btns { display: flex; gap: 10px; margin-top: 14px; }
   .btn {
     flex: 1; padding: 14px; border: none; border-radius: 12px;
-    font-size: 18px; font-weight: 700;
+    font-size: 20px; font-weight: 700;
     font-family: inherit; cursor: pointer;
   }
   .btn-primary { background: #0f7a5a; color: #fff; }
@@ -445,7 +451,7 @@
     transform: translateX(-50%);
     background: #2b2418; color: #fff;
     padding: 14px 22px; border-radius: 26px;
-    font-size: 17px; font-weight: 700; z-index: 200;
+    font-size: 19px; font-weight: 700; z-index: 200;
     opacity: 0; transition: opacity .2s;
     pointer-events: none;
     max-width: 90%; text-align: center;
@@ -506,16 +512,7 @@
         <button class="on add" id="mode-add" onclick="setMode('add')">+ إضافة</button>
         <button class="sub" id="mode-sub" onclick="setMode('sub')">− تصحيح</button>
       </div>
-      <div style="font-size:14px;color:#4a4133;flex:1">اختَر "تصحيح" لإنقاص العداد إن أخطأت.</div>
-    </div>
-
-    <div class="spinner-row">
-      <div class="spinner">
-        <button type="button" onclick="bump(-1)">−</button>
-        <input id="amount" type="number" min="1" max="1000000" value="33" inputmode="numeric" />
-        <button type="button" onclick="bump(1)">+</button>
-      </div>
-      <button class="add-btn" id="submit-btn" onclick="submitAmount()">سجّل</button>
+      <div style="font-size: 16px;color:#4a4133;flex:1">اختَر "تصحيح" لإنقاص العداد إن أخطأت.</div>
     </div>
 
     <div class="chips" id="quick-chips"></div>
@@ -559,7 +556,7 @@ const NAME_KEY = 'zikr_user_name';
 const PIDS_KEY = 'zikr_participant_ids'; // { [zikrId]: participantId }
 const LAST_ZIKR_KEY = 'zikr_last_zikr';
 
-const QUICK_AMOUNTS = [33, 50, 100, 500, 1000, 5000, 10000];
+const QUICK_AMOUNTS = [10, 50, 100, 500, 1000, 5000, 10000];
 
 let zikrs = [];
 let activeZikr = null;
@@ -577,8 +574,8 @@ function toast(msg, kind) {
   clearTimeout(toast._tid);
   toast._tid = setTimeout(() => t.classList.remove('show'), 2500);
 }
-const toArabic = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
-const fmtNum = n => toArabic(Number(n).toLocaleString('en-US'));
+const toArabic = n => String(n); // numerals kept in English/Latin
+const fmtNum = n => Number(n).toLocaleString('en-US');
 const escapeHtml = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 function getName() { return localStorage.getItem(NAME_KEY) || ''; }
@@ -762,7 +759,6 @@ function renderAddPanel(z) {
   $('add-panel').style.display = 'block';
   $('me-name').textContent = getName() || '—';
 
-  // Compute "am I capped?" — capUserTarget on + userTarget set + I've already met it
   const myName = (getName() || '').trim().toLowerCase();
   const myPid = getPid(z.id);
   const myTotal = z.contributions
@@ -771,7 +767,6 @@ function renderAddPanel(z) {
   const capped = !!z.capUserTarget && (z.userTarget || 0) > 0 && myTotal >= z.userTarget;
 
   const disabled = z.paused || z.archived || (capped && mode === 'add');
-  $('submit-btn').disabled = disabled;
   $('paused-notice').style.display = z.paused && !z.archived ? 'block' : 'none';
   $('archived-notice').style.display = z.archived ? 'block' : 'none';
   let cap = $('capped-notice');
@@ -806,15 +801,7 @@ function setMode(m) {
   mode = m;
   $('mode-add').classList.toggle('on', m === 'add');
   $('mode-sub').classList.toggle('on', m === 'sub');
-  $('submit-btn').textContent = m === 'sub' ? 'إنقاص' : 'سجّل';
-  $('submit-btn').classList.toggle('minus', m === 'sub');
   renderQuickChips();
-}
-
-function bump(delta) {
-  const inp = $('amount');
-  const v = Math.max(1, (parseInt(inp.value, 10) || 0) + delta);
-  inp.value = v;
 }
 
 function computeFinishers(z, ut) {
@@ -882,7 +869,7 @@ function renderLeaderboard(z) {
     return `<div class="lb-row${i === 0 ? ' first' : ''}${isMe ? ' me' : ''}${isFinisher ? ' finisher' : ''}">
       <div class="lb-rank">${i === 0 ? '👑' : toArabic(i + 1)}</div>
       <div class="lb-name">
-        ${escapeHtml(e.name)}${badge}${isMe ? ' <span style="font-size:10px;color:#0f7a5a">(أنت)</span>' : ''}
+        ${escapeHtml(e.name)}${badge}${isMe ? ' <span style="font-size: 12px;color:#0f7a5a">(أنت)</span>' : ''}
       </div>
       <div class="lb-total">${fmtNum(e.total)}</div>
     </div>`;
@@ -908,7 +895,7 @@ function renderCountdown(deadline) {
     c.classList.remove('urgent', 'done');
     if (diff <= 0) {
       c.classList.add('done');
-      c.innerHTML = `<div>✓ انتهى الموعد المحدد</div><div style="font-size:11px;margin-top:2px;opacity:.8">${formatDate(deadline)}</div>`;
+      c.innerHTML = `<div>✓ انتهى الموعد المحدد</div><div style="font-size: 13px;margin-top:2px;opacity:.8">${formatDate(deadline)}</div>`;
       if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
       return;
     }
@@ -923,7 +910,7 @@ function renderCountdown(deadline) {
       <div style="display:flex;gap:6px;justify-content:center;margin-top:6px;flex-wrap:wrap">
         ${cdBox(days, 'يوم')}${cdBox(hours, 'ساعة')}${cdBox(mins, 'دقيقة')}${cdBox(secs, 'ثانية')}
       </div>
-      <div style="font-size:11px;margin-top:6px;opacity:.85">${formatDate(deadline)}</div>
+      <div style="font-size: 13px;margin-top:6px;opacity:.85">${formatDate(deadline)}</div>
     `;
   };
   tick();
@@ -932,8 +919,8 @@ function renderCountdown(deadline) {
 
 function cdBox(n, label) {
   return `<div style="background:rgba(255,255,255,.55);border-radius:8px;padding:6px 10px;min-width:56px">
-    <div style="font-weight:700;font-size:22px;font-family:Amiri,serif">${toArabic(String(n).padStart(2,'0'))}</div>
-    <div style="font-size:12px;opacity:.85">${label}</div>
+    <div style="font-weight:700;font-size: 24px;font-family:Amiri,serif">${toArabic(String(n).padStart(2,'0'))}</div>
+    <div style="font-size: 14px;opacity:.85">${label}</div>
   </div>`;
 }
 
@@ -976,14 +963,7 @@ function ensureName(cb) {
   askName(false);
 }
 
-function submitAmount() {
-  const v = parseInt($('amount').value, 10);
-  if (!v || v < 1) { toast('أدخل عدداً صحيحاً موجباً', 'error'); return; }
-  submit(v);
-}
-
 function quickAdd(n) {
-  $('amount').value = n;
   submit(n);
 }
 
@@ -1026,9 +1006,6 @@ function parseArabic(s) {
   return parseInt(ascii, 10) || 0;
 }
 
-$('amount').addEventListener('keydown', e => {
-  if (e.key === 'Enter') submitAmount();
-});
 $('name-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') saveName();
 });
