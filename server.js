@@ -29,7 +29,7 @@ app.get('/admin', (req, res) => {
 const makeId = () => crypto.randomBytes(6).toString('hex');
 const makePid = () => crypto.randomBytes(8).toString('hex');
 
-function newZikr({ title, phrase, intro, target, userTarget, capUserTarget, deadline }) {
+function newZikr({ title, phrase, intro, target, userTarget, capUserTarget, completionMessage, deadline }) {
   return {
     id: makeId(),
     title: title || 'ذكر جماعي',
@@ -38,6 +38,7 @@ function newZikr({ title, phrase, intro, target, userTarget, capUserTarget, dead
     target: Math.max(0, Number(target) || 0),
     userTarget: Math.max(0, Number(userTarget) || 0),
     capUserTarget: !!capUserTarget,
+    completionMessage: completionMessage || '',
     deadline: deadline || null,
     createdAt: new Date().toISOString(),
     archived: false,
@@ -69,6 +70,7 @@ function normalize(data) {
       if (typeof z.target !== 'number' || z.target < 0) z.target = 0;
       if (typeof z.userTarget !== 'number' || z.userTarget < 0) z.userTarget = 0;
       if (typeof z.capUserTarget !== 'boolean') z.capUserTarget = false;
+      if (typeof z.completionMessage !== 'string') z.completionMessage = '';
     }
     return data;
   }
@@ -165,6 +167,7 @@ function publicZikr(z) {
     target: z.target,
     userTarget: z.userTarget || 0,
     capUserTarget: !!z.capUserTarget,
+    completionMessage: z.completionMessage || '',
     deadline: z.deadline,
     createdAt: z.createdAt,
     archived: z.archived,
@@ -246,16 +249,16 @@ app.post('/api/contribute', async (req, res) => {
 // === Admin API (no auth) ===
 
 app.post('/api/admin/zikr/create', async (req, res) => {
-  const { title, phrase, intro, target, userTarget, capUserTarget, deadline } = req.body;
+  const { title, phrase, intro, target, userTarget, capUserTarget, completionMessage, deadline } = req.body;
   const data = await store.load();
-  const z = newZikr({ title, phrase, intro, target, userTarget, capUserTarget, deadline });
+  const z = newZikr({ title, phrase, intro, target, userTarget, capUserTarget, completionMessage, deadline });
   data.zikrs.push(z);
   await store.save(data);
   res.json({ ok: true, id: z.id });
 });
 
 app.post('/api/admin/zikr/update', async (req, res) => {
-  const { id, title, phrase, intro, target, userTarget, capUserTarget, deadline } = req.body;
+  const { id, title, phrase, intro, target, userTarget, capUserTarget, completionMessage, deadline } = req.body;
   const data = await store.load();
   const z = findZikr(data, id);
   if (!z) return res.status(404).json({ error: 'الذكر غير موجود' });
@@ -269,6 +272,7 @@ app.post('/api/admin/zikr/update', async (req, res) => {
     z.userTarget = Math.max(0, Math.trunc(Number(userTarget) || 0));
   }
   if (typeof capUserTarget === 'boolean') z.capUserTarget = capUserTarget;
+  if (typeof completionMessage === 'string') z.completionMessage = completionMessage;
   if (deadline !== undefined) z.deadline = deadline || null;
   await store.save(data);
   res.json({ ok: true });

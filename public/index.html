@@ -452,6 +452,129 @@
   .btn-primary { background: #0f7a5a; color: #fff; }
   .btn-secondary { background: #eee; color: #333; }
 
+  /* Celebration overlay */
+  .celebrate-bg {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.55);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 300;
+    backdrop-filter: blur(4px);
+  }
+  .celebrate-bg.show { display: flex; }
+  #fw-canvas {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .balloons {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 2;
+  }
+  .balloon {
+    position: absolute;
+    bottom: -120px;
+    width: 64px; height: 90px;
+    animation: float-up linear forwards;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,.25));
+    transform-origin: 50% 50%;
+  }
+  .balloon svg { width: 100%; height: 100%; display: block; }
+  @keyframes float-up {
+    0%   { transform: translate3d(0,0,0) rotate(0deg); opacity: 0; }
+    10%  { opacity: 1; }
+    25%  { transform: translate3d(15px,-25vh,0) rotate(6deg); }
+    50%  { transform: translate3d(-20px,-55vh,0) rotate(-7deg); }
+    75%  { transform: translate3d(15px,-85vh,0) rotate(5deg); }
+    95%  { opacity: 1; }
+    100% { transform: translate3d(-10px,-115vh,0) rotate(-10deg); opacity: 0; }
+  }
+  .celebrate-card {
+    position: relative;
+    background: #fff;
+    border-radius: 22px;
+    padding: 32px 28px;
+    margin: 20px;
+    max-width: 480px;
+    text-align: center;
+    z-index: 10;
+    box-shadow: 0 12px 40px rgba(0,0,0,.4);
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    animation: pop .5s ease-out;
+  }
+  .celebrate-card::before {
+    content: '';
+    position: absolute; inset: -4px;
+    border-radius: 22px;
+    padding: 4px;
+    background: linear-gradient(135deg, #d4a017, #25d366, #b8860b, #e0b84a, #2e8b57, #d4a017);
+    background-size: 400% 400%;
+    animation: flow 4s ease infinite;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    z-index: -1;
+  }
+  @keyframes pop {
+    0% { transform: scale(.3); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+  @keyframes flow {
+    0%,100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  .celebrate-emoji {
+    width: 90px; height: 90px;
+    margin: 0 auto;
+    display: inline-block;
+    line-height: 1;
+    animation: bounce 1s infinite alternate;
+    filter: drop-shadow(0 6px 8px rgba(168,135,10,.4));
+  }
+  .celebrate-emoji svg { width: 100%; height: 100%; }
+  @keyframes bounce {
+    from { transform: translateY(0) scale(1); }
+    to { transform: translateY(-8px) scale(1.05); }
+  }
+  .celebrate-title {
+    font-family: 'Amiri', serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 16px 0 12px;
+    background: linear-gradient(90deg, #d4a017, #2e8b57, #d4a017);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: flow 3s ease infinite;
+  }
+  .celebrate-msg {
+    font-size: 19px; line-height: 1.7;
+    color: #4a4133;
+    margin-bottom: 18px;
+    white-space: pre-wrap;
+  }
+  .celebrate-stat {
+    font-family: 'Amiri', serif;
+    font-size: 28px; font-weight: 700;
+    color: #0f7a5a;
+    background: linear-gradient(135deg, #d4f1dd, #f4ebd5);
+    padding: 10px 18px;
+    border-radius: 14px;
+    display: inline-block;
+    margin-bottom: 18px;
+  }
+  .celebrate-close {
+    background: #0f7a5a; color: #fff; border: none;
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-family: inherit; font-size: 19px; font-weight: 700;
+    cursor: pointer;
+  }
+
   .toast {
     position: fixed; bottom: 30px; left: 50%;
     transform: translateX(-50%);
@@ -557,12 +680,50 @@
   </div>
 </div>
 
+<div class="celebrate-bg" id="celebrate">
+  <canvas id="fw-canvas"></canvas>
+  <div class="balloons" id="balloons"></div>
+  <div class="celebrate-card">
+    <div class="celebrate-emoji" aria-hidden="true">
+      <svg viewBox="0 0 64 64" width="64" height="64">
+        <defs>
+          <linearGradient id="trophyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffe27a"/>
+            <stop offset="55%" stop-color="#f1c40f"/>
+            <stop offset="100%" stop-color="#a8870a"/>
+          </linearGradient>
+        </defs>
+        <!-- Side handles -->
+        <path d="M14 14 C 6 14 4 22 8 28 C 12 33 18 32 20 30" fill="none" stroke="#f1c40f" stroke-width="3" stroke-linecap="round"/>
+        <path d="M50 14 C 58 14 60 22 56 28 C 52 33 46 32 44 30" fill="none" stroke="#f1c40f" stroke-width="3" stroke-linecap="round"/>
+        <!-- Cup body -->
+        <path d="M16 8 L48 8 L46 30 C 46 38 40 44 32 44 C 24 44 18 38 18 30 Z" fill="url(#trophyGrad)" stroke="#a8870a" stroke-width="1.5" stroke-linejoin="round"/>
+        <!-- Highlight on cup -->
+        <path d="M22 12 L26 12 L25 28 C 25 32 23 34 22 32 Z" fill="rgba(255,255,255,.5)"/>
+        <!-- Stem -->
+        <rect x="28" y="44" width="8" height="8" fill="#d4a017"/>
+        <!-- Base -->
+        <rect x="20" y="52" width="24" height="6" rx="2" fill="#a8870a"/>
+        <rect x="16" y="58" width="32" height="4" rx="1.5" fill="#7a6107"/>
+        <!-- Star on cup -->
+        <path d="M32 18 L34 23 L39 23 L35 26 L37 31 L32 28 L27 31 L29 26 L25 23 L30 23 Z" fill="#fff" opacity=".85"/>
+      </svg>
+    </div>
+    <div class="celebrate-title">تقبّل الله منك</div>
+    <div class="celebrate-stat" id="celebrate-stat">—</div>
+    <div class="celebrate-msg" id="celebrate-msg">—</div>
+    <button class="celebrate-close" onclick="closeCelebrate()">شكراً لله</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 const NAME_KEY = 'zikr_user_name';
 const PIDS_KEY = 'zikr_participant_ids'; // { [zikrId]: participantId }
 const LAST_ZIKR_KEY = 'zikr_last_zikr';
+// Celebration trigger — once per page-load session (resets on refresh)
+const celebratedThisSession = new Set();
 
 const QUICK_AMOUNTS = [10, 50, 100, 500, 1000, 5000, 10000];
 
@@ -596,6 +757,244 @@ function setPid(zikrId, pid) {
   localStorage.setItem(PIDS_KEY, JSON.stringify(m));
 }
 function getPid(zikrId) { return getPids()[zikrId] || null; }
+
+function markCelebrated(zikrId) { celebratedThisSession.add(zikrId); }
+function isCelebrated(zikrId) { return celebratedThisSession.has(zikrId); }
+
+// ===== Celebration overlay + fireworks + balloons + sound =====
+let fwAnim = null;
+let fwStopTimer = null;
+let balloonTimer = null;
+let chimeTimer = null;
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (AC) audioCtx = new AC();
+  }
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+// Single clap — short noise burst, mid-high bandpass, sharp attack & decay
+function scheduleClap(ctx, t, gain) {
+  const bufferSize = Math.floor(ctx.sampleRate * 0.12);
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) {
+    // Sharp attack at the start, fast exponential decay
+    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 8);
+  }
+  const src = ctx.createBufferSource(); src.buffer = buffer;
+  const bp = ctx.createBiquadFilter();
+  bp.type = 'bandpass';
+  bp.frequency.value = 1500 + Math.random() * 2500; // 1.5–4 kHz, varied per clap
+  bp.Q.value = 1.0;
+  const hp = ctx.createBiquadFilter();
+  hp.type = 'highpass'; hp.frequency.value = 700;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(gain, t);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 0.13);
+  src.connect(bp); bp.connect(hp); hp.connect(g); g.connect(ctx.destination);
+  src.start(t); src.stop(t + 0.14);
+}
+
+// One round of applause: a burst of ~12–20 overlapping claps over ~1s
+function playApplauseBurst() {
+  const ctx = getAudioCtx(); if (!ctx) return;
+  const now = ctx.currentTime;
+  const claps = 14 + Math.floor(Math.random() * 8);
+  for (let i = 0; i < claps; i++) {
+    const t = now + Math.random() * 1.0;
+    const gain = 0.08 + Math.random() * 0.18;
+    scheduleClap(ctx, t, gain);
+  }
+}
+
+// Sustained crowd applause: dense, continuous claps over a duration
+function playSustainedApplause(durationSec) {
+  const ctx = getAudioCtx(); if (!ctx) return;
+  const now = ctx.currentTime;
+  const total = Math.floor(durationSec * 30); // ~30 claps/sec at peak
+  for (let i = 0; i < total; i++) {
+    const t = now + Math.random() * durationSec;
+    const gain = 0.04 + Math.random() * 0.12;
+    scheduleClap(ctx, t, gain);
+  }
+}
+
+// Aliases used by the celebration loop
+const playFanfare = playApplauseBurst;
+const playSparkle = playApplauseBurst;
+const playPop = playApplauseBurst;
+const playFireworkSound = playApplauseBurst;
+const playChime = playApplauseBurst;
+
+function showCelebration(zikr, myTotal) {
+  $('celebrate-stat').textContent = `${fmtNum(myTotal)} / ${fmtNum(zikr.userTarget)}`;
+  const msg = (zikr.completionMessage || '').trim() ||
+    'تقبّل الله منك صالح العمل. أتممت هدفك الفردي بفضل من الله.';
+  $('celebrate-msg').textContent = msg;
+  $('celebrate').classList.add('show');
+  startFireworks();
+  startBalloons();
+  // (sound effects removed — visual celebration only)
+  clearTimeout(fwStopTimer);
+  fwStopTimer = setTimeout(() => {
+    stopFireworks(); stopBalloons(); stopChimes();
+  }, 10000);
+}
+function closeCelebrate() {
+  $('celebrate').classList.remove('show');
+  stopFireworks();
+  stopBalloons();
+  stopChimes();
+}
+function stopChimes() {
+  if (chimeTimer) clearInterval(chimeTimer);
+  chimeTimer = null;
+}
+function startFireworks() {
+  const cv = $('fw-canvas');
+  cv.width = cv.offsetWidth || window.innerWidth;
+  cv.height = cv.offsetHeight || window.innerHeight;
+  const ctx = cv.getContext('2d');
+  const particles = [];
+  const COLORS = ['#ffd76b','#d4a017','#25d366','#2e8b57','#b8860b','#e0b84a','#ffffff','#ff6b6b','#5b9bff','#ff7ad2','#9ed5ff'];
+  const SHAPES = ['star', 'ring', 'streak', 'dot'];
+
+  function drawStar(ctx, x, y, r, color) {
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    for (let i = 0; i < 10; i++) {
+      const radius = i % 2 === 0 ? r : r * 0.45;
+      const angle = (Math.PI * 2 * i) / 10 - Math.PI / 2;
+      const px = x + Math.cos(angle) * radius;
+      const py = y + Math.sin(angle) * radius;
+      i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+    }
+    ctx.closePath(); ctx.fill();
+  }
+
+  function burst() {
+    const x = cv.width * (0.15 + Math.random() * 0.7);
+    const y = cv.height * (0.15 + Math.random() * 0.35);
+    const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    const shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+    const count = shape === 'ring' ? 48 : (shape === 'star' ? 16 : 70);
+    const baseV = shape === 'ring' ? 6 : 3.5;
+    for (let i = 0; i < count; i++) {
+      const a = (Math.PI * 2 * i) / count + (shape === 'ring' ? 0 : Math.random() * 0.2);
+      const v = baseV + Math.random() * 3;
+      particles.push({
+        x, y,
+        vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1,
+        life: 60 + Math.random() * 40,
+        maxLife: 100,
+        color,
+        shape,
+        size: shape === 'star' ? 8 + Math.random() * 6 : (shape === 'streak' ? 2 : 3),
+        rot: Math.random() * Math.PI * 2,
+        rotV: (Math.random() - 0.5) * 0.2,
+        prevX: x, prevY: y
+      });
+    }
+  }
+  let lastBurst = 0;
+  function frame(ts) {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    if (ts - lastBurst > 500) { burst(); lastBurst = ts; }
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.prevX = p.x; p.prevY = p.y;
+      p.x += p.vx; p.y += p.vy; p.vy += 0.06; p.life--; p.rot += p.rotV;
+      if (p.life <= 0) { particles.splice(i, 1); continue; }
+      const alpha = Math.max(0, p.life / p.maxLife);
+      ctx.globalAlpha = alpha;
+      if (p.shape === 'star') {
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+        drawStar(ctx, 0, 0, p.size, p.color);
+        ctx.restore();
+      } else if (p.shape === 'streak') {
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = p.size;
+        ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(p.prevX, p.prevY); ctx.lineTo(p.x, p.y); ctx.stroke();
+      } else {
+        // dot / ring (rendered as bright dot)
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+        // outer glow
+        ctx.globalAlpha = alpha * 0.3;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size * 2.2, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+    fwAnim = requestAnimationFrame(frame);
+  }
+  burst();
+  fwAnim = requestAnimationFrame(frame);
+}
+function stopFireworks() {
+  if (fwAnim) cancelAnimationFrame(fwAnim);
+  fwAnim = null;
+  const cv = $('fw-canvas');
+  cv.getContext('2d').clearRect(0, 0, cv.width, cv.height);
+}
+
+const BALLOON_PALETTES = [
+  { body: '#e74c3c', hl: '#ffb3a8', knot: '#a83025' }, // red
+  { body: '#3498db', hl: '#a8d6f5', knot: '#1f6a99' }, // blue
+  { body: '#2ecc71', hl: '#a9e8c4', knot: '#1e8c4f' }, // green
+  { body: '#f1c40f', hl: '#fff0a8', knot: '#a8870a' }, // yellow
+  { body: '#9b59b6', hl: '#d8b9e0', knot: '#6c3a85' }, // purple
+  { body: '#e67e22', hl: '#fbcfa5', knot: '#a35615' }, // orange
+  { body: '#ff8fab', hl: '#ffd1dd', knot: '#a85f76' }, // pink
+  { body: '#1abc9c', hl: '#a8e8dc', knot: '#108070' }  // teal
+];
+function balloonSVG(p) {
+  return `<svg viewBox="0 0 64 90" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="g${p.knot.slice(1)}" cx="35%" cy="30%" r="65%">
+        <stop offset="0%" stop-color="${p.hl}"/>
+        <stop offset="60%" stop-color="${p.body}"/>
+        <stop offset="100%" stop-color="${p.knot}"/>
+      </radialGradient>
+    </defs>
+    <!-- string -->
+    <path d="M32 64 Q34 72 30 80 Q26 86 32 90" stroke="#7a6f56" stroke-width="1" fill="none" />
+    <!-- balloon body -->
+    <ellipse cx="32" cy="32" rx="22" ry="28" fill="url(#g${p.knot.slice(1)})" />
+    <!-- highlight -->
+    <ellipse cx="24" cy="22" rx="6" ry="9" fill="rgba(255,255,255,.45)" />
+    <!-- knot -->
+    <path d="M28 60 L32 66 L36 60 Z" fill="${p.knot}" />
+  </svg>`;
+}
+function startBalloons() {
+  const wrap = $('balloons');
+  wrap.innerHTML = '';
+  function spawn() {
+    const b = document.createElement('div');
+    b.className = 'balloon';
+    const palette = BALLOON_PALETTES[Math.floor(Math.random() * BALLOON_PALETTES.length)];
+    b.innerHTML = balloonSVG(palette);
+    b.style.left = (Math.random() * 88 + 2) + '%';
+    const scale = 0.7 + Math.random() * 0.9;
+    b.style.width = (64 * scale) + 'px';
+    b.style.height = (90 * scale) + 'px';
+    const dur = 5 + Math.random() * 3;
+    b.style.animationDuration = dur + 's';
+    wrap.appendChild(b);
+    setTimeout(() => b.remove(), dur * 1000 + 100);
+  }
+  for (let i = 0; i < 5; i++) setTimeout(spawn, i * 280);
+  balloonTimer = setInterval(spawn, 500);
+}
+function stopBalloons() {
+  if (balloonTimer) clearInterval(balloonTimer);
+  balloonTimer = null;
+  setTimeout(() => { const w = $('balloons'); if (w) w.innerHTML = ''; }, 4500);
+}
 
 function getUrlZikrId() {
   return new URLSearchParams(location.search).get('z');
@@ -987,6 +1386,14 @@ function submit(rawAmount) {
     }
 
     // Single source of truth: server returns the full updated zikr in the response.
+    // Snapshot my total BEFORE the contribution for crossing detection.
+    const ut = Number(activeZikr.userTarget) || 0;
+    const myNameLower = name.trim().toLowerCase();
+    const myPidPre = getPid(activeZikrId);
+    const myPrev = activeZikr.contributions
+      .filter(c => (myPidPre && c.participantId === myPidPre) || (c.name || '').trim().toLowerCase() === myNameLower)
+      .reduce((s, c) => s + (Number(c.amount) || 0), 0);
+
     try {
       const pid = getPid(activeZikrId);
       const res = await api('/api/contribute', {
@@ -997,11 +1404,20 @@ function submit(rawAmount) {
       if (res.participantId) setPid(activeZikrId, res.participantId);
       if (res.zikr) {
         activeZikr = res.zikr;
-        renderZikr(); // one render with authoritative data — updates EVERYTHING
+        renderZikr();
       }
       toast(mode === 'sub'
         ? `تم الإنقاص ${fmtNum(Math.abs(signed))}`
         : `جزاك الله خيراً — +${fmtNum(signed)}`, 'success');
+
+      // Celebrate the moment they cross the user target (once per zikr).
+      if (ut > 0 && signed > 0 && myPrev < ut) {
+        const myNow = myPrev + signed;
+        if (myNow >= ut && !isCelebrated(activeZikrId)) {
+          markCelebrated(activeZikrId);
+          showCelebration(activeZikr, myNow);
+        }
+      }
     } catch (e) {
       toast(e.message, 'error');
     }

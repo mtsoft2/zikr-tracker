@@ -354,6 +354,8 @@ function renderCreateForm() {
         <input id="new-cap" type="checkbox" style="width:auto;margin:0" />
         منع المساهم من تجاوز هدفه الفردي
       </label>
+      <label>رسالة التهنئة عند إتمام الهدف الفردي (اختياري)</label>
+      <textarea id="new-completion" placeholder="مثال: تقبّل الله منك — أتممت الذكر بفضل من الله"></textarea>
       <div style="font-size: 18px;color:#8a6a1a;margin-top:6px">يجب تحديد هدف واحد على الأقل (جماعي أو فردي).</div>
       <label>موعد الإتمام — التاريخ والوقت (اختياري)</label>
       <input id="new-deadline" type="datetime-local" />
@@ -404,6 +406,8 @@ function renderZikr(z) {
         <input id="cap-${z.id}" type="checkbox" ${z.capUserTarget ? 'checked' : ''} style="width:auto;margin:0" />
         منع المساهم من تجاوز هدفه الفردي
       </label>
+      <label>رسالة التهنئة عند إتمام الهدف الفردي (اختياري)</label>
+      <textarea id="completion-${z.id}">${escapeHtml(z.completionMessage || '')}</textarea>
       <label>الموعد (التاريخ والوقت)</label>
       <input id="deadline-${z.id}" type="datetime-local" value="${z.deadline ? toLocalInput(z.deadline) : ''}" />
 
@@ -488,9 +492,10 @@ async function createZikr() {
   const userTarget = Math.max(0, parseNumber($('new-user-target').value));
   if (target === 0 && userTarget === 0) { toast('حدّد هدفاً جماعياً أو فردياً على الأقل'); return; }
   const capUserTarget = $('new-cap').checked;
+  const completionMessage = $('new-completion').value;
   const deadline = localInputToIso($('new-deadline').value);
   try {
-    const res = await api('/api/admin/zikr/create', { title, phrase, intro, target, userTarget, capUserTarget, deadline });
+    const res = await api('/api/admin/zikr/create', { title, phrase, intro, target, userTarget, capUserTarget, completionMessage, deadline });
     toast('تم إنشاء الذكر');
     selectedId = res.id;
     await loadAll();
@@ -507,6 +512,7 @@ async function updateZikr(id) {
       target: Math.max(0, parseNumber($('target-' + id).value)),
       userTarget: Math.max(0, parseNumber($('user-target-' + id).value)),
       capUserTarget: $('cap-' + id).checked,
+      completionMessage: $('completion-' + id).value,
       deadline: localInputToIso($('deadline-' + id).value)
     });
     toast('تم الحفظ');
