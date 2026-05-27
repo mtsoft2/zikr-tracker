@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#0f7a5a" />
+<title>الإدارة — عدّاد الأذكار</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'Tajawal', system-ui, sans-serif;
+    background: linear-gradient(160deg, #f4ebd5 0%, #e9dcb8 100%);
+    color: #2b2418;
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(135deg, #0f7a5a, #0a5a42);
+    color: #fff; padding: 14px 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.15);
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 10;
+  }
+  header h1 { margin: 0; font-family: 'Amiri', serif; font-size: 20px; flex: 1; text-align: center; }
+  header a {
+    color: #fff; text-decoration: none; font-size: 13px;
+    background: rgba(255,255,255,.15);
+    padding: 6px 12px; border-radius: 8px;
+  }
+  .font-controls { display: flex; gap: 4px; }
+  .font-controls button {
+    width: 34px; height: 34px;
+    border: none;
+    background: rgba(255,255,255,.18);
+    color: #fff; font-weight: 700;
+    border-radius: 50%; cursor: pointer;
+    font-family: inherit;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .font-controls button:active { background: rgba(255,255,255,.32); }
+  .font-controls .a-plus { font-size: 16px; }
+  .font-controls .a-minus { font-size: 13px; }
+
+  .toptabs {
+    display: flex;
+    background: #0a5a42;
+    padding: 0;
+    position: sticky; top: 56px; z-index: 9;
+  }
+  .toptab {
+    flex: 1; padding: 12px; text-align: center;
+    background: transparent; color: rgba(255,255,255,.7);
+    border: none; font-family: inherit; font-size: 14px;
+    font-weight: 700; cursor: pointer;
+    border-bottom: 3px solid transparent;
+  }
+  .toptab.active { color: #ffd76b; border-bottom-color: #ffd76b; }
+
+  .zikr-chips {
+    display: flex; gap: 6px; overflow-x: auto;
+    padding: 10px 14px;
+    background: #efe5cb;
+    border-bottom: 1px solid #d8cfb5;
+    scrollbar-width: none;
+  }
+  .zikr-chips::-webkit-scrollbar { display: none; }
+  .chip {
+    flex: 0 0 auto;
+    background: #fff;
+    color: #2b2418;
+    border: 1.5px solid #d8cfb5;
+    padding: 7px 14px;
+    border-radius: 18px;
+    font-family: inherit; font-size: 13px;
+    cursor: pointer; white-space: nowrap;
+  }
+  .chip.active { background: #0f7a5a; color: #fff; border-color: #0f7a5a; font-weight: 700; }
+  .chip.new { background: #fff7e0; border-color: #e0b84a; color: #8a6a1a; font-weight: 700; }
+
+  .card {
+    margin: 14px; padding: 14px;
+    background: #fff; border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  }
+  .card h2 {
+    margin: 0 0 12px; font-size: 17px;
+    color: #0f7a5a; font-family: 'Amiri', serif;
+  }
+  label { display: block; font-size: 12px; color: #6b6353; margin: 8px 0 4px; }
+  input, textarea, select {
+    width: 100%; padding: 10px 12px; font-size: 14px;
+    border: 1.5px solid #d8cfb5; border-radius: 8px;
+    font-family: inherit; background: #faf6ec;
+    text-align: right;
+  }
+  input:focus, textarea:focus, select:focus { outline: none; border-color: #0f7a5a; }
+  textarea { min-height: 90px; resize: vertical; line-height: 1.7; }
+  .btn {
+    margin-top: 10px; padding: 10px 14px;
+    border: none; border-radius: 8px;
+    font-size: 14px; font-weight: 700;
+    font-family: inherit; cursor: pointer;
+    background: #0f7a5a; color: #fff;
+  }
+  .btn-block { width: 100%; }
+  .btn-sm { padding: 5px 9px; font-size: 12px; margin: 0; }
+  .btn-danger { background: #b34747; }
+  .btn-warn { background: #c97a3b; }
+  .btn-secondary { background: #ddd; color: #333; }
+
+  .row-btns { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+
+  .meta-strip {
+    display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0 8px;
+  }
+  .badge {
+    font-size: 11px; background: #faf6ec;
+    color: #6b6353; padding: 3px 8px; border-radius: 10px;
+  }
+  .badge.green { background: #d4f1dd; color: #2e8b57; }
+  .badge.warn  { background: #fff7e0; color: #8a6a1a; }
+  .badge.gray  { background: #eee; color: #555; }
+
+  .progress-mini {
+    background: rgba(0,0,0,.08);
+    height: 8px; border-radius: 4px; overflow: hidden;
+    margin-top: 4px;
+  }
+  .progress-mini > div {
+    height: 100%;
+    background: linear-gradient(90deg, #0f7a5a, #2e8b57);
+  }
+
+  .entry-line {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 10px; font-size: 13px;
+    border-bottom: 1px dashed #e1d8be;
+  }
+  .entry-line:last-child { border-bottom: none; }
+  .entry-line .who { font-weight: 700; }
+  .entry-line .amt { font-family: 'Amiri', serif; font-weight: 700; }
+  .entry-line .amt.minus { color: #b34747; }
+  .entry-line .amt.plus { color: #0f7a5a; }
+  .entry-line .meta { font-size: 11px; color: #6b6353; }
+  .entry-block {
+    background: #faf6ec; border: 1px solid #e1d8be;
+    border-radius: 8px; margin-bottom: 8px;
+    overflow: hidden;
+  }
+
+  .participant-line {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 10px; font-size: 13px;
+    border-bottom: 1px dashed #e1d8be;
+  }
+  .participant-line:last-child { border-bottom: none; }
+  .participant-line .total { font-family: 'Amiri', serif; color: #0f7a5a; font-weight: 700; }
+
+  .empty-list { font-size: 12px; color: #999; padding: 10px; text-align: center; }
+
+  .empty-state {
+    margin: 50px 20px; text-align: center; color: #6b6353;
+  }
+  .empty-state h3 { color: #0f7a5a; font-family: 'Amiri', serif; }
+
+  .sub-tabs {
+    display: flex; gap: 0; margin: 0 0 10px;
+    background: #faf6ec; border-radius: 8px; padding: 3px;
+    border: 1px solid #d8cfb5;
+  }
+  .sub-tab {
+    flex: 1; padding: 7px;
+    background: transparent; border: none;
+    font-family: inherit; font-size: 13px; font-weight: 700;
+    color: #6b6353; cursor: pointer; border-radius: 6px;
+  }
+  .sub-tab.active { background: #0f7a5a; color: #fff; }
+
+  .toast {
+    position: fixed; bottom: 20px; left: 50%;
+    transform: translateX(-50%);
+    background: #2b2418; color: #fff;
+    padding: 10px 18px; border-radius: 24px;
+    font-size: 14px; z-index: 200;
+    opacity: 0; transition: opacity .2s; pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<header>
+  <a href="/">← الرئيسية</a>
+  <h1>لوحة الإدارة</h1>
+  <div class="font-controls">
+    <button class="a-plus" onclick="bumpFont(1)" title="تكبير الخط">أ+</button>
+    <button class="a-minus" onclick="bumpFont(-1)" title="تصغير الخط">أ−</button>
+  </div>
+</header>
+
+<div class="toptabs">
+  <button class="toptab active" id="tab-active" onclick="switchTab('active')">الأذكار النشطة</button>
+  <button class="toptab" id="tab-archived" onclick="switchTab('archived')">الأرشيف</button>
+</div>
+
+<div class="zikr-chips" id="chips"></div>
+
+<div id="content"></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const FONT_SCALE_KEY = 'zikr_font_scale';
+const FONT_STEPS = [0.85, 1.0, 1.15, 1.3, 1.5];
+function applyFontScale() {
+  const v = parseFloat(localStorage.getItem(FONT_SCALE_KEY) || '1.0');
+  document.body.style.zoom = v;
+}
+function bumpFont(dir) {
+  const cur = parseFloat(localStorage.getItem(FONT_SCALE_KEY) || '1.0');
+  let i = FONT_STEPS.indexOf(cur);
+  if (i === -1) i = FONT_STEPS.indexOf(1.0);
+  i = Math.max(0, Math.min(FONT_STEPS.length - 1, i + dir));
+  localStorage.setItem(FONT_SCALE_KEY, String(FONT_STEPS[i]));
+  applyFontScale();
+}
+applyFontScale();
+
+let zikrs = [];
+let currentTab = 'active';
+let selectedId = null;
+let detailView = 'entries'; // 'entries' | 'participants'
+const NEW_ID = '__new__';
+
+const $ = id => document.getElementById(id);
+const toast = m => { const t=$('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); };
+const toArabic = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+const fmtNum = n => toArabic(Number(n).toLocaleString('en-US'));
+const escapeHtml = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const escapeAttr = s => escapeHtml(s).replace(/'/g, "\\'");
+
+function formatDate(iso) {
+  try { return new Date(iso).toLocaleString('ar-EG-u-nu-arab', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }); }
+  catch { return iso; }
+}
+function formatShortDate(iso) {
+  try { return new Date(iso).toLocaleString('ar-EG-u-nu-arab', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }); }
+  catch { return iso; }
+}
+function toLocalInput(iso) {
+  try {
+    const d = new Date(iso);
+    const pad = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  } catch { return ''; }
+}
+function localInputToIso(v) {
+  if (!v) return null;
+  const d = new Date(v);
+  return isNaN(d) ? null : d.toISOString();
+}
+
+async function api(path, body) {
+  const r = await fetch(path, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body || {})
+  });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.error || ('خطأ ' + r.status));
+  return d;
+}
+
+async function loadAll() {
+  const list = await fetch('/api/zikrs').then(r => r.json());
+  zikrs = await Promise.all(list.map(z => fetch('/api/zikr/' + z.id).then(r => r.json())));
+  if (selectedId && selectedId !== NEW_ID && !zikrs.find(z => z.id === selectedId)) selectedId = null;
+  render();
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  $('tab-active').classList.toggle('active', tab === 'active');
+  $('tab-archived').classList.toggle('active', tab === 'archived');
+  selectedId = null;
+  render();
+}
+
+function visibleZikrs() {
+  return zikrs.filter(z => currentTab === 'active' ? !z.archived : z.archived);
+}
+
+function render() {
+  renderChips();
+  renderContent();
+}
+
+function renderChips() {
+  const list = visibleZikrs();
+  const chips = $('chips');
+  let html = '';
+  if (currentTab === 'active') {
+    const isNew = selectedId === NEW_ID;
+    html += `<button class="chip new${isNew ? ' active' : ''}" onclick="selectZikr('${NEW_ID}')">＋ ذكر جديد</button>`;
+  }
+  html += list.map(z => `
+    <button class="chip${z.id === selectedId ? ' active' : ''}" onclick="selectZikr('${z.id}')">
+      ${escapeHtml(z.title)}
+    </button>
+  `).join('');
+  chips.innerHTML = html;
+  chips.style.display = (html ? 'flex' : 'none');
+}
+
+function selectZikr(id) {
+  selectedId = id;
+  detailView = 'entries';
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderContent() {
+  const root = $('content');
+  if (selectedId === NEW_ID) { root.innerHTML = renderCreateForm(); return; }
+  const list = visibleZikrs();
+  if (!list.length) {
+    if (currentTab === 'archived') {
+      root.innerHTML = '<div class="empty-state"><h3>لا توجد أذكار في الأرشيف</h3></div>';
+    } else {
+      root.innerHTML = '<div class="empty-state"><h3>لا توجد أذكار نشطة</h3><p>اضغط "ذكر جديد" لإنشاء واحد.</p></div>';
+    }
+    return;
+  }
+  if (!selectedId || !list.find(z => z.id === selectedId)) {
+    selectedId = list[0].id;
+    renderChips();
+  }
+  const z = list.find(x => x.id === selectedId);
+  root.innerHTML = renderZikr(z);
+}
+
+function renderCreateForm() {
+  return `
+    <div class="card">
+      <h2>إنشاء ذكر جديد</h2>
+      <label>اختر صيغة شائعة (اختياري)</label>
+      <select id="new-preset" onchange="applyPreset()">
+        <option value="">— اختر صيغة لتعبئة الحقول تلقائياً —</option>
+        <option data-title="ذكر التهليل" data-phrase="لا إله إلا الله">لا إله إلا الله</option>
+        <option data-title="الصلاة على النبي ﷺ" data-phrase="اللهم صلِّ على سيدنا محمد">اللهم صلِّ على سيدنا محمد</option>
+        <option data-title="الاستغفار" data-phrase="أستغفر الله العظيم وأتوب إليه">أستغفر الله العظيم</option>
+        <option data-title="التسبيح" data-phrase="سبحان الله وبحمده">سبحان الله وبحمده</option>
+        <option data-title="التحميد" data-phrase="الحمد لله رب العالمين">الحمد لله</option>
+        <option data-title="التكبير" data-phrase="الله أكبر">الله أكبر</option>
+        <option data-title="الحوقلة" data-phrase="لا حول ولا قوة إلا بالله">لا حول ولا قوة إلا بالله</option>
+        <option data-title="ذكر الباقيات الصالحات" data-phrase="سبحان الله والحمد لله ولا إله إلا الله والله أكبر">الباقيات الصالحات</option>
+        <option data-title="سيد الاستغفار" data-phrase="اللهم أنت ربي لا إله إلا أنت">سيد الاستغفار</option>
+        <option data-title="ذكر يونس عليه السلام" data-phrase="لا إله إلا أنت سبحانك إني كنت من الظالمين">دعاء ذي النون</option>
+      </select>
+      <label>عنوان الذكر</label>
+      <input id="new-title" placeholder="مثال: ذكر التهليل" />
+      <label>صيغة الذكر (تظهر بخط كبير في الواجهة)</label>
+      <textarea id="new-phrase" placeholder="مثال: لا إله إلا الله"></textarea>
+      <label>المقدمة (نص تعريفي)</label>
+      <textarea id="new-intro" placeholder="بسم الله الرحمن الرحيم…"></textarea>
+      <label>الهدف الجماعي (مجموع كل المساهمين — ٠ لعدم تحديد)</label>
+      <input id="new-target" type="number" min="0" value="0" inputmode="numeric" />
+      <label>هدف الفرد (لكل مساهم — ٠ لعدم تحديد)</label>
+      <input id="new-user-target" type="number" min="0" value="100" inputmode="numeric" />
+      <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size:14px;cursor:pointer">
+        <input id="new-cap" type="checkbox" style="width:auto;margin:0" />
+        منع المساهم من تجاوز هدفه الفردي
+      </label>
+      <div style="font-size:12px;color:#8a6a1a;margin-top:6px">يجب تحديد هدف واحد على الأقل (جماعي أو فردي).</div>
+      <label>موعد الإتمام — التاريخ والوقت (اختياري)</label>
+      <input id="new-deadline" type="datetime-local" />
+      <button class="btn btn-block" onclick="createZikr()">إنشاء الذكر</button>
+    </div>
+  `;
+}
+
+function applyPreset() {
+  const sel = $('new-preset');
+  const opt = sel.options[sel.selectedIndex];
+  if (!opt || !opt.value) return;
+  const title = opt.getAttribute('data-title') || opt.value;
+  const phrase = opt.getAttribute('data-phrase') || opt.value;
+  $('new-title').value = title;
+  $('new-phrase').value = phrase;
+}
+
+function renderZikr(z) {
+  const pct = Math.max(0, Math.min(100, Math.round((z.currentCount / z.target) * 100)));
+  const sorted = [...z.contributions].sort((a, b) => new Date(b.at) - new Date(a.at));
+  const participants = aggregateParticipants(z.contributions);
+
+  return `
+    <div class="card">
+      <h2>بيانات الذكر</h2>
+      <div class="meta-strip">
+        ${z.archived ? '<span class="badge gray">مؤرشف</span>' : ''}
+        ${z.paused && !z.archived ? '<span class="badge warn">متوقّف</span>' : ''}
+        ${!z.paused && !z.archived ? '<span class="badge green">نشط</span>' : ''}
+        <span class="badge">${fmtNum(z.currentCount)} / ${fmtNum(z.target)} (${toArabic(pct)}٪)</span>
+        <span class="badge">${fmtNum(participants.length)} مساهم</span>
+        ${z.deadline ? `<span class="badge">⏳ ${formatDate(z.deadline)}</span>` : ''}
+      </div>
+      <div class="progress-mini"><div style="width:${pct}%"></div></div>
+
+      <label>عنوان الذكر</label>
+      <input id="title-${z.id}" value="${escapeHtml(z.title)}" />
+      <label>صيغة الذكر</label>
+      <textarea id="phrase-${z.id}">${escapeHtml(z.phrase)}</textarea>
+      <label>المقدمة</label>
+      <textarea id="intro-${z.id}">${escapeHtml(z.intro)}</textarea>
+      <label>الهدف الجماعي (مجموع كل المساهمين — ٠ لعدم تحديد)</label>
+      <input id="target-${z.id}" type="number" min="0" value="${z.target}" inputmode="numeric" />
+      <label>هدف الفرد (لكل مساهم — ٠ لعدم تحديد)</label>
+      <input id="user-target-${z.id}" type="number" min="0" value="${z.userTarget || 0}" inputmode="numeric" />
+      <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size:14px;cursor:pointer">
+        <input id="cap-${z.id}" type="checkbox" ${z.capUserTarget ? 'checked' : ''} style="width:auto;margin:0" />
+        منع المساهم من تجاوز هدفه الفردي
+      </label>
+      <label>الموعد (التاريخ والوقت)</label>
+      <input id="deadline-${z.id}" type="datetime-local" value="${z.deadline ? toLocalInput(z.deadline) : ''}" />
+
+      <button class="btn btn-block" onclick="updateZikr('${z.id}')">حفظ التعديلات</button>
+
+      <div class="row-btns">
+        ${!z.archived
+          ? (z.paused
+              ? `<button class="btn btn-sm" onclick="pauseZikr('${z.id}', false)">▶ استئناف</button>`
+              : `<button class="btn btn-sm btn-warn" onclick="pauseZikr('${z.id}', true)">⏸ إيقاف مؤقت</button>`)
+          : ''
+        }
+        ${z.archived
+          ? `<button class="btn btn-sm btn-secondary" onclick="archiveZikr('${z.id}', false)">إلغاء الأرشفة</button>`
+          : `<button class="btn btn-sm btn-warn" onclick="archiveZikr('${z.id}', true)">📁 أرشفة</button>`
+        }
+        <button class="btn btn-sm btn-warn" onclick="resetZikr('${z.id}')">↺ إفراغ العداد</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteZikr('${z.id}', '${escapeAttr(z.title)}')">🗑 حذف نهائي</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>سجل المساهمات</h2>
+      <div class="sub-tabs">
+        <button class="sub-tab ${detailView==='entries'?'active':''}" onclick="setDetailView('entries')">الإدخالات (${fmtNum(z.contributions.length)})</button>
+        <button class="sub-tab ${detailView==='participants'?'active':''}" onclick="setDetailView('participants')">المساهمون (${fmtNum(participants.length)})</button>
+      </div>
+      ${detailView === 'entries'
+        ? (sorted.length === 0
+            ? '<div class="empty-list">— لا توجد مساهمات بعد —</div>'
+            : `<div class="entry-block">${sorted.map(c => `
+                <div class="entry-line">
+                  <div>
+                    <div class="who">${escapeHtml(c.name)}</div>
+                    <div class="meta">${formatShortDate(c.at)}</div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <span class="amt ${c.amount < 0 ? 'minus' : 'plus'}">${c.amount < 0 ? '−' : '+'}${fmtNum(Math.abs(c.amount))}</span>
+                    <button class="btn btn-sm btn-danger" onclick="removeEntry('${z.id}', '${c.id}')">حذف</button>
+                  </div>
+                </div>`).join('')}</div>`)
+        : (participants.length === 0
+            ? '<div class="empty-list">— لا يوجد مساهمون بعد —</div>'
+            : `<div class="entry-block">${participants.map(p => `
+                <div class="participant-line">
+                  <div>
+                    <div class="who">${escapeHtml(p.name)}</div>
+                    <div class="meta">${fmtNum(p.entries)} إدخال — آخر مساهمة: ${formatShortDate(p.lastAt)}</div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <span class="total">${fmtNum(p.total)}</span>
+                    <button class="btn btn-sm btn-danger" onclick="removeParticipant('${z.id}', '${escapeAttr(p.name)}')">حذف الكل</button>
+                  </div>
+                </div>`).join('')}</div>`)
+      }
+    </div>
+  `;
+}
+
+function aggregateParticipants(contributions) {
+  const map = new Map();
+  contributions.forEach(c => {
+    const key = c.name.trim();
+    if (!map.has(key)) map.set(key, { name: key, total: 0, entries: 0, lastAt: c.at });
+    const e = map.get(key);
+    e.total += Number(c.amount) || 0;
+    e.entries += 1;
+    if (new Date(c.at) > new Date(e.lastAt)) e.lastAt = c.at;
+  });
+  return [...map.values()].sort((a, b) => b.total - a.total);
+}
+
+function setDetailView(v) { detailView = v; render(); }
+
+async function createZikr() {
+  const title = $('new-title').value.trim();
+  const phrase = $('new-phrase').value.trim();
+  if (!title) { toast('عنوان الذكر مطلوب'); return; }
+  if (!phrase) { toast('صيغة الذكر مطلوبة'); return; }
+  const intro = $('new-intro').value;
+  const target = Math.max(0, parseInt($('new-target').value, 10) || 0);
+  const userTarget = Math.max(0, parseInt($('new-user-target').value, 10) || 0);
+  if (target === 0 && userTarget === 0) { toast('حدّد هدفاً جماعياً أو فردياً على الأقل'); return; }
+  const capUserTarget = $('new-cap').checked;
+  const deadline = localInputToIso($('new-deadline').value);
+  try {
+    const res = await api('/api/admin/zikr/create', { title, phrase, intro, target, userTarget, capUserTarget, deadline });
+    toast('تم إنشاء الذكر');
+    selectedId = res.id;
+    await loadAll();
+  } catch (e) { toast(e.message); }
+}
+
+async function updateZikr(id) {
+  try {
+    await api('/api/admin/zikr/update', {
+      id,
+      title: $('title-' + id).value,
+      phrase: $('phrase-' + id).value,
+      intro: $('intro-' + id).value,
+      target: Math.max(0, parseInt($('target-' + id).value, 10) || 0),
+      userTarget: Math.max(0, parseInt($('user-target-' + id).value, 10) || 0),
+      capUserTarget: $('cap-' + id).checked,
+      deadline: localInputToIso($('deadline-' + id).value)
+    });
+    toast('تم الحفظ');
+    await loadAll();
+  } catch (e) { toast(e.message); }
+}
+
+async function pauseZikr(id, paused) {
+  try { await api('/api/admin/zikr/pause', { id, paused }); toast(paused ? 'تم الإيقاف' : 'تم الاستئناف'); await loadAll(); }
+  catch (e) { toast(e.message); }
+}
+
+async function archiveZikr(id, archived) {
+  try {
+    await api('/api/admin/zikr/archive', { id, archived });
+    toast(archived ? 'تمت الأرشفة' : 'تم الاستعادة');
+    selectedId = null;
+    if (archived) currentTab = 'active';
+    await loadAll();
+  } catch (e) { toast(e.message); }
+}
+
+async function deleteZikr(id, title) {
+  if (!confirm(`حذف ذكر "${title}" نهائياً؟ لا يمكن التراجع.`)) return;
+  try {
+    await api('/api/admin/zikr/delete', { id });
+    toast('تم الحذف');
+    selectedId = null;
+    await loadAll();
+  } catch (e) { toast(e.message); }
+}
+
+async function resetZikr(id) {
+  if (!confirm('إفراغ العداد ومسح جميع المساهمات؟ لا يمكن التراجع.')) return;
+  try { await api('/api/admin/zikr/reset', { id }); toast('تم الإفراغ'); await loadAll(); }
+  catch (e) { toast(e.message); }
+}
+
+async function removeParticipant(id, name) {
+  if (!confirm(`حذف جميع مساهمات "${name}"؟`)) return;
+  try { await api('/api/admin/zikr/remove-participant', { id, name }); toast('تم الحذف'); await loadAll(); }
+  catch (e) { toast(e.message); }
+}
+
+async function removeEntry(id, entryId) {
+  if (!confirm('حذف هذا الإدخال؟')) return;
+  try { await api('/api/admin/zikr/remove-entry', { id, entryId }); toast('تم الحذف'); await loadAll(); }
+  catch (e) { toast(e.message); }
+}
+
+loadAll();
+</script>
+</body>
+</html>
