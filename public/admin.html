@@ -24,9 +24,9 @@
     display: flex; align-items: center; justify-content: space-between;
     position: sticky; top: 0; z-index: 10;
   }
-  header h1 { margin: 0; font-family: 'Amiri', serif; font-size: 22px; flex: 1; text-align: center; }
+  header h1 { margin: 0; font-family: 'Amiri', serif; font-size: 26px; flex: 1; text-align: center; }
   header a {
-    color: #fff; text-decoration: none; font-size: 15px;
+    color: #fff; text-decoration: none; font-size: 19px;
     background: rgba(255,255,255,.15);
     padding: 6px 12px; border-radius: 8px;
   }
@@ -40,7 +40,7 @@
   .toptab {
     flex: 1; padding: 12px; text-align: center;
     background: transparent; color: rgba(255,255,255,.7);
-    border: none; font-family: inherit; font-size: 16px;
+    border: none; font-family: inherit; font-size: 20px;
     font-weight: 700; cursor: pointer;
     border-bottom: 3px solid transparent;
   }
@@ -61,7 +61,7 @@
     border: 1.5px solid #d8cfb5;
     padding: 7px 14px;
     border-radius: 18px;
-    font-family: inherit; font-size: 15px;
+    font-family: inherit; font-size: 19px;
     cursor: pointer; white-space: nowrap;
   }
   .chip.active { background: #0f7a5a; color: #fff; border-color: #0f7a5a; font-weight: 700; }
@@ -73,12 +73,12 @@
     box-shadow: 0 2px 8px rgba(0,0,0,.06);
   }
   .card h2 {
-    margin: 0 0 12px; font-size: 19px;
+    margin: 0 0 12px; font-size: 23px;
     color: #0f7a5a; font-family: 'Amiri', serif;
   }
-  label { display: block; font-size: 14px; color: #6b6353; margin: 8px 0 4px; }
+  label { display: block; font-size: 18px; color: #6b6353; margin: 8px 0 4px; }
   input, textarea, select {
-    width: 100%; padding: 10px 12px; font-size: 16px;
+    width: 100%; padding: 10px 12px; font-size: 20px;
     border: 1.5px solid #d8cfb5; border-radius: 8px;
     font-family: inherit; background: #faf6ec;
     text-align: right;
@@ -88,12 +88,12 @@
   .btn {
     margin-top: 10px; padding: 10px 14px;
     border: none; border-radius: 8px;
-    font-size: 16px; font-weight: 700;
+    font-size: 20px; font-weight: 700;
     font-family: inherit; cursor: pointer;
     background: #0f7a5a; color: #fff;
   }
   .btn-block { width: 100%; }
-  .btn-sm { padding: 5px 9px; font-size: 14px; margin: 0; }
+  .btn-sm { padding: 5px 9px; font-size: 18px; margin: 0; }
   .btn-danger { background: #b34747; }
   .btn-warn { background: #c97a3b; }
   .btn-secondary { background: #ddd; color: #333; }
@@ -104,7 +104,7 @@
     display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0 8px;
   }
   .badge {
-    font-size: 13px; background: #faf6ec;
+    font-size: 17px; background: #faf6ec;
     color: #6b6353; padding: 3px 8px; border-radius: 10px;
   }
   .badge.green { background: #d4f1dd; color: #2e8b57; }
@@ -123,7 +123,7 @@
 
   .entry-line {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 8px 10px; font-size: 15px;
+    padding: 8px 10px; font-size: 19px;
     border-bottom: 1px dashed #e1d8be;
   }
   .entry-line:last-child { border-bottom: none; }
@@ -131,7 +131,7 @@
   .entry-line .amt { font-family: 'Amiri', serif; font-weight: 700; }
   .entry-line .amt.minus { color: #b34747; }
   .entry-line .amt.plus { color: #0f7a5a; }
-  .entry-line .meta { font-size: 13px; color: #6b6353; }
+  .entry-line .meta { font-size: 17px; color: #6b6353; }
   .entry-block {
     background: #faf6ec; border: 1px solid #e1d8be;
     border-radius: 8px; margin-bottom: 8px;
@@ -140,13 +140,13 @@
 
   .participant-line {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 8px 10px; font-size: 15px;
+    padding: 8px 10px; font-size: 19px;
     border-bottom: 1px dashed #e1d8be;
   }
   .participant-line:last-child { border-bottom: none; }
   .participant-line .total { font-family: 'Amiri', serif; color: #0f7a5a; font-weight: 700; }
 
-  .empty-list { font-size: 14px; color: #999; padding: 10px; text-align: center; }
+  .empty-list { font-size: 18px; color: #999; padding: 10px; text-align: center; }
 
   .empty-state {
     margin: 50px 20px; text-align: center; color: #6b6353;
@@ -161,7 +161,7 @@
   .sub-tab {
     flex: 1; padding: 7px;
     background: transparent; border: none;
-    font-family: inherit; font-size: 15px; font-weight: 700;
+    font-family: inherit; font-size: 19px; font-weight: 700;
     color: #6b6353; cursor: pointer; border-radius: 6px;
   }
   .sub-tab.active { background: #0f7a5a; color: #fff; }
@@ -171,7 +171,7 @@
     transform: translateX(-50%);
     background: #2b2418; color: #fff;
     padding: 10px 18px; border-radius: 24px;
-    font-size: 16px; z-index: 200;
+    font-size: 20px; z-index: 200;
     opacity: 0; transition: opacity .2s; pointer-events: none;
   }
   .toast.show { opacity: 1; }
@@ -208,6 +208,19 @@ const toArabic = n => String(n);
 const fmtNum = n => Number(n).toLocaleString('en-US');
 const escapeHtml = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const escapeAttr = s => escapeHtml(s).replace(/'/g, "\\'");
+
+function parseNumber(v) { return parseInt(String(v || '').replace(/[,\s]/g, ''), 10) || 0; }
+function formatNumberInput(el) {
+  const caret = el.selectionStart;
+  const before = el.value;
+  const digits = before.replace(/[^0-9]/g, '');
+  const formatted = digits ? Number(digits).toLocaleString('en-US') : '';
+  if (formatted !== before) {
+    el.value = formatted;
+    const diff = formatted.length - before.length;
+    try { el.setSelectionRange(caret + diff, caret + diff); } catch (e) {}
+  }
+}
 
 function formatDate(iso) {
   try { return new Date(iso).toLocaleString('en-GB', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }); }
@@ -334,14 +347,14 @@ function renderCreateForm() {
       <label>المقدمة (نص تعريفي)</label>
       <textarea id="new-intro" placeholder="بسم الله الرحمن الرحيم…"></textarea>
       <label>الهدف الجماعي (مجموع كل المساهمين — ٠ لعدم تحديد)</label>
-      <input id="new-target" type="number" min="0" value="0" inputmode="numeric" />
+      <input id="new-target" type="text" inputmode="numeric" value="0" oninput="formatNumberInput(this)" />
       <label>هدف الفرد (لكل مساهم — ٠ لعدم تحديد)</label>
-      <input id="new-user-target" type="number" min="0" value="100" inputmode="numeric" />
-      <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size: 16px;cursor:pointer">
+      <input id="new-user-target" type="text" inputmode="numeric" value="100" oninput="formatNumberInput(this)" />
+      <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size: 20px;cursor:pointer">
         <input id="new-cap" type="checkbox" style="width:auto;margin:0" />
         منع المساهم من تجاوز هدفه الفردي
       </label>
-      <div style="font-size: 14px;color:#8a6a1a;margin-top:6px">يجب تحديد هدف واحد على الأقل (جماعي أو فردي).</div>
+      <div style="font-size: 18px;color:#8a6a1a;margin-top:6px">يجب تحديد هدف واحد على الأقل (جماعي أو فردي).</div>
       <label>موعد الإتمام — التاريخ والوقت (اختياري)</label>
       <input id="new-deadline" type="datetime-local" />
       <button class="btn btn-block" onclick="createZikr()">إنشاء الذكر</button>
@@ -384,10 +397,10 @@ function renderZikr(z) {
       <label>المقدمة</label>
       <textarea id="intro-${z.id}">${escapeHtml(z.intro)}</textarea>
       <label>الهدف الجماعي (مجموع كل المساهمين — ٠ لعدم تحديد)</label>
-      <input id="target-${z.id}" type="number" min="0" value="${z.target}" inputmode="numeric" />
+      <input id="target-${z.id}" type="text" inputmode="numeric" value="${fmtNum(z.target)}" oninput="formatNumberInput(this)" />
       <label>هدف الفرد (لكل مساهم — ٠ لعدم تحديد)</label>
-      <input id="user-target-${z.id}" type="number" min="0" value="${z.userTarget || 0}" inputmode="numeric" />
-      <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size: 16px;cursor:pointer">
+      <input id="user-target-${z.id}" type="text" inputmode="numeric" value="${fmtNum(z.userTarget || 0)}" oninput="formatNumberInput(this)" />
+      <label style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size: 20px;cursor:pointer">
         <input id="cap-${z.id}" type="checkbox" ${z.capUserTarget ? 'checked' : ''} style="width:auto;margin:0" />
         منع المساهم من تجاوز هدفه الفردي
       </label>
@@ -471,8 +484,8 @@ async function createZikr() {
   if (!title) { toast('عنوان الذكر مطلوب'); return; }
   if (!phrase) { toast('صيغة الذكر مطلوبة'); return; }
   const intro = $('new-intro').value;
-  const target = Math.max(0, parseInt($('new-target').value, 10) || 0);
-  const userTarget = Math.max(0, parseInt($('new-user-target').value, 10) || 0);
+  const target = Math.max(0, parseNumber($('new-target').value));
+  const userTarget = Math.max(0, parseNumber($('new-user-target').value));
   if (target === 0 && userTarget === 0) { toast('حدّد هدفاً جماعياً أو فردياً على الأقل'); return; }
   const capUserTarget = $('new-cap').checked;
   const deadline = localInputToIso($('new-deadline').value);
@@ -491,8 +504,8 @@ async function updateZikr(id) {
       title: $('title-' + id).value,
       phrase: $('phrase-' + id).value,
       intro: $('intro-' + id).value,
-      target: Math.max(0, parseInt($('target-' + id).value, 10) || 0),
-      userTarget: Math.max(0, parseInt($('user-target-' + id).value, 10) || 0),
+      target: Math.max(0, parseNumber($('target-' + id).value)),
+      userTarget: Math.max(0, parseNumber($('user-target-' + id).value)),
       capUserTarget: $('cap-' + id).checked,
       deadline: localInputToIso($('deadline-' + id).value)
     });
