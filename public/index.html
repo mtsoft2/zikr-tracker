@@ -878,7 +878,7 @@ function renderLeaderboard(z) {
 
 function formatShortDate(iso) {
   try {
-    return new Date(iso).toLocaleDateString('ar-EG-u-nu-arab', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    return new Date(iso).toLocaleDateString('en-GB', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
   } catch { return ''; }
 }
 
@@ -926,7 +926,7 @@ function cdBox(n, label) {
 
 function formatDate(iso) {
   try {
-    return new Date(iso).toLocaleString('ar-EG-u-nu-arab', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    return new Date(iso).toLocaleString('en-GB', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
   } catch { return iso; }
 }
 
