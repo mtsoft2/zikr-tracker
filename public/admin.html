@@ -207,7 +207,20 @@ const toast = m => { const t=$('toast'); t.textContent=m; t.classList.add('show'
 const toArabic = n => String(n);
 const fmtNum = n => Number(n).toLocaleString('en-US');
 const escapeHtml = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const escapeAttr = s => escapeHtml(s).replace(/'/g, "\\'");
+const escapeAttr = s => escapeHtml(s).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+const COMPLETION_PRESETS = [
+  'تقبّل الله منك صالح العمل. أتممت هدفك الفردي بفضل من الله.',
+  'بارك الله فيك! بلغت هدفك بفضل الله 🎊',
+  'جزاك الله خيراً، وزادك من فضله. تمّ بحمد الله.',
+  'اللهم تقبّل منا ومنك. أكملت الذكر بفضله سبحانه.',
+  'مبارك إتمام الهدف! نسأل الله أن يتقبّل منك ويضاعف لك الأجر.',
+  'أحسنت! تمّ بفضل الله، تقبّل الله طاعتك.',
+  'كتب الله أجرك، وضاعف لك الحسنات. ما شاء الله.',
+  'ما شاء الله تبارك الله! بلغت الهدف، نسأل الله القبول.',
+  'بفضل الله أتممت ذكره. اللهم اجعله في موازين حسناتك.',
+  'أحسن الله إليك. تقبّل الله صالح أعمالك.'
+];
 
 function parseNumber(v) { return parseInt(String(v || '').replace(/[,\s]/g, ''), 10) || 0; }
 function formatNumberInput(el) {
@@ -355,6 +368,10 @@ function renderCreateForm() {
         منع المساهم من تجاوز هدفه الفردي
       </label>
       <label>رسالة التهنئة عند إتمام الهدف الفردي (اختياري)</label>
+      <select onchange="if(this.value){document.getElementById('new-completion').value=this.value;this.selectedIndex=0;}">
+        <option value="">— اختر تهنئة جاهزة أو اكتبها بنفسك —</option>
+        ${COMPLETION_PRESETS.map(p => `<option value="${escapeAttr(p)}">${escapeHtml(p)}</option>`).join('')}
+      </select>
       <textarea id="new-completion" placeholder="مثال: تقبّل الله منك — أتممت الذكر بفضل من الله"></textarea>
       <div style="font-size: 18px;color:#8a6a1a;margin-top:6px">يجب تحديد هدف واحد على الأقل (جماعي أو فردي).</div>
       <label>موعد الإتمام — التاريخ والوقت (اختياري)</label>
@@ -407,6 +424,10 @@ function renderZikr(z) {
         منع المساهم من تجاوز هدفه الفردي
       </label>
       <label>رسالة التهنئة عند إتمام الهدف الفردي (اختياري)</label>
+      <select onchange="if(this.value){document.getElementById('completion-${z.id}').value=this.value;this.selectedIndex=0;}">
+        <option value="">— اختر تهنئة جاهزة أو اكتبها بنفسك —</option>
+        ${COMPLETION_PRESETS.map(p => `<option value="${escapeAttr(p)}">${escapeHtml(p)}</option>`).join('')}
+      </select>
       <textarea id="completion-${z.id}">${escapeHtml(z.completionMessage || '')}</textarea>
       <label>الموعد (التاريخ والوقت)</label>
       <input id="deadline-${z.id}" type="datetime-local" value="${z.deadline ? toLocalInput(z.deadline) : ''}" />
